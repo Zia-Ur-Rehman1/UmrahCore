@@ -42,3 +42,21 @@ demo_support:
   role: 4
   platform_admin: false
   tenant: demo
+
+demo_group_leader:
+  email: leader@demotravels.test
+  encrypted_password: <%= Devise::Encryptor.digest(User, "Password123!") %>
+  full_name: Demo Group Leader
+  status: 1
+  role: 5
+  platform_admin: false
+  tenant: demo
+
+demo_customer:
+  email: customer@demotravels.test
+  encrypted_password: <%= Devise::Encryptor.digest(User, "Password123!") %>
+  full_name: Demo Customer
+  status: 1
+  role: 6
+  platform_admin: false
+  tenant: demo

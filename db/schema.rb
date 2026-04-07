@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_04_07_014845) do
+ActiveRecord::Schema[7.0].define(version: 2026_04_07_071000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,8 +32,12 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_07_014845) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "customer_user_id"
+    t.bigint "group_leader_user_id"
     t.index ["booking_ref"], name: "index_bookings_on_booking_ref", unique: true
+    t.index ["customer_user_id"], name: "index_bookings_on_customer_user_id"
     t.index ["departure_id"], name: "index_bookings_on_departure_id"
+    t.index ["group_leader_user_id"], name: "index_bookings_on_group_leader_user_id"
     t.index ["idempotency_key"], name: "index_bookings_on_idempotency_key", unique: true
     t.index ["product_id"], name: "index_bookings_on_product_id"
     t.index ["tenant_id"], name: "index_bookings_on_tenant_id"
@@ -210,6 +214,8 @@ ActiveRecord::Schema[7.0].define(version: 2026_04_07_014845) do
   add_foreign_key "bookings", "departures"
   add_foreign_key "bookings", "products"
   add_foreign_key "bookings", "tenants"
+  add_foreign_key "bookings", "users", column: "customer_user_id"
+  add_foreign_key "bookings", "users", column: "group_leader_user_id"
   add_foreign_key "case_messages", "support_cases"
   add_foreign_key "case_messages", "tenants"
   add_foreign_key "case_messages", "users"

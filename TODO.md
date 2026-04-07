@@ -14,13 +14,13 @@
 - Decide the exact WhatsApp provider abstraction and webhook signature rules for Phase 1 messaging work.
 - Add document upload and Active Storage workflows for traveler passport files and receipts.
 - Add real Stripe checkout, webhook idempotency, refunds, and payout reconciliation instead of the current manual finance capture flow.
-- Add self-service customer/client portal authentication and booking visibility.
-- Add reporting exports and scheduled metric snapshots beyond the current dashboard aggregates.
+- Expand the client portal with self-service payment actions, document uploads, and profile updates beyond the current booking visibility slice.
+- Add scheduled metric snapshots and background delivery for exports beyond the current on-demand reporting pages.
 
 ## Next execution chunks
 
-- Client portal and self-service booking visibility
-- Reporting exports and KPI snapshots
 - Stripe webhooks and reconciliation
 - Document management
 - Real-time inbox/dashboard updates
+- Portal self-service actions
+- Scheduled reporting snapshots

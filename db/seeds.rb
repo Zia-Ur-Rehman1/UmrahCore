@@ -76,6 +76,26 @@ demo_support.assign_attributes(
 )
 demo_support.save!
 
+demo_customer = demo_tenant.users.find_or_initialize_by(email: "customer@demotravels.test")
+demo_customer.assign_attributes(
+  full_name: "Demo Customer",
+  password: "Password123!",
+  password_confirmation: "Password123!",
+  role: :customer,
+  status: :active
+)
+demo_customer.save!
+
+demo_group_leader = demo_tenant.users.find_or_initialize_by(email: "leader@demotravels.test")
+demo_group_leader.assign_attributes(
+  full_name: "Demo Group Leader",
+  password: "Password123!",
+  password_confirmation: "Password123!",
+  role: :group_leader,
+  status: :active
+)
+demo_group_leader.save!
+
 demo_product = demo_tenant.products.find_or_initialize_by(name: "Premium Spring Umrah")
 demo_product.assign_attributes(
   description: "Makkah and Madinah package with guided support and hotel stays.",
@@ -117,6 +137,8 @@ demo_booking.assign_attributes(
   currency: "USD",
   payment_plan: "Installment",
   idempotency_key: "seed-booking-demo",
+  customer_user: demo_customer,
+  group_leader_user: demo_group_leader,
   notes: "Requires quad rooming"
 )
 demo_booking.save!

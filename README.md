@@ -7,6 +7,8 @@ Rails-first multi-tenant Umrah and travel operations platform. This repo now imp
 3. Catalog and departure management for tenant operators.
 4. Booking intake, traveler management, payment capture, and ledger posting.
 5. Support inbox workflows and a public tenant storefront.
+6. Client portal booking visibility for customer and group leader accounts.
+7. Reporting dashboards with on-demand CSV exports for bookings, payments, and support cases.
 
 ## Stack
 
@@ -53,6 +55,16 @@ Demo tenant owner:
 - email: `owner@demotravels.test`
 - password: `Password123!`
 
+Demo customer portal:
+
+- email: `customer@demotravels.test`
+- password: `Password123!`
+
+Demo group leader portal:
+
+- email: `leader@demotravels.test`
+- password: `Password123!`
+
 Tenant-aware login URL:
 
 ```text
@@ -70,8 +82,10 @@ http://lvh.me:3000/users/sign_in
 Automated verification:
 
 ```bash
+bin/rails db:migrate
 bin/rails test
 bin/rails zeitwerk:check
+bin/rails db:seed
 bin/rails runner 'puts({tenants: Tenant.count, products: Product.count, departures: Departure.count}.inspect)'
 bin/rails runner 'puts({bookings: Booking.count, payments: Payment.count, cases: SupportCase.count, case_messages: CaseMessage.count}.inspect)'
 ```
@@ -102,4 +116,5 @@ Expected output shape:
 - [Chunk 005 PR notes](./docs/pr/005-payments-ledger.md)
 - [Chunk 006 PR notes](./docs/pr/006-support-and-storefront.md)
 - [MVP rollup PR notes](./docs/pr/007-mvp-rollup.md)
+- [Portal and reporting PR notes](./docs/pr/008-client-portal-and-reporting.md)
 - [TODO backlog](./TODO.md)

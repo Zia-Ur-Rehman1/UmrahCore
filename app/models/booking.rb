@@ -3,6 +3,8 @@ class Booking < ApplicationRecord
 
   belongs_to :product
   belongs_to :departure
+  belongs_to :customer_user, class_name: "User", optional: true, inverse_of: :customer_bookings
+  belongs_to :group_leader_user, class_name: "User", optional: true, inverse_of: :group_leader_bookings
 
   has_many :ledger_entries, dependent: :destroy
   has_many :payments, dependent: :destroy
@@ -27,10 +29,22 @@ class Booking < ApplicationRecord
   validates :total_price_cents, :amount_paid_cents, :outstanding_cents, numericality: { greater_than_or_equal_to: 0 }
   validate :product_and_departure_belong_to_tenant
   validate :departure_matches_product
+  validate :portal_users_belong_to_tenant
+  validate :portal_user_roles_are_supported
+
+  scope :for_portal_user, ->(user) do
+    return none if user.blank?
+
+    where(customer_user_id: user.id).or(where(group_leader_user_id: user.id))
+  end
 
   def recalculate_payment_state!
     self.outstanding_cents = [total_price_cents - amount_paid_cents, 0].max
     self.status = outstanding_cents.zero? ? :confirmed : :pending_payment
+  end
+
+  def visible_to_portal_user?(user)
+    user.present? && [customer_user_id, group_leader_user_id].compact.include?(user.id)
   end
 
   private
@@ -68,5 +82,26 @@ class Booking < ApplicationRecord
     return if departure.product_id == product_id
 
     errors.add(:departure, "must belong to the selected product")
+  end
+
+  def portal_users_belong_to_tenant
+    {
+      customer_user: customer_user,
+      group_leader_user: group_leader_user
+    }.each do |attribute, portal_user|
+      next if portal_user.blank? || tenant.blank? || portal_user.tenant_id == tenant_id
+
+      errors.add(attribute, "must belong to the current tenant")
+    end
+  end
+
+  def portal_user_roles_are_supported
+    if customer_user.present? && !customer_user.role_customer?
+      errors.add(:customer_user, "must have the customer role")
+    end
+
+    if group_leader_user.present? && !group_leader_user.role_group_leader?
+      errors.add(:group_leader_user, "must have the group leader role")
+    end
   end
 end

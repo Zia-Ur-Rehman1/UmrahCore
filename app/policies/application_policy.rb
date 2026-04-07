@@ -39,7 +39,7 @@ class ApplicationPolicy
   private
 
   def tenant_operator?
-    user.present? && Current.tenant.present? && user.accessible_to_tenant?(Current.tenant)
+    user.present? && Current.tenant.present? && user.workspace_access? && user.accessible_to_tenant?(Current.tenant)
   end
 
   def tenant_admin?
@@ -52,6 +52,14 @@ class ApplicationPolicy
 
   def support_operator?
     tenant_operator? && user.support_access?
+  end
+
+  def reporting_operator?
+    tenant_operator? && user.reporting_access?
+  end
+
+  def portal_user?
+    user.present? && Current.tenant.present? && user.portal_access? && user.accessible_to_tenant?(Current.tenant)
   end
 
   def within_current_tenant?
@@ -77,6 +85,12 @@ class ApplicationPolicy
       return scope.where(tenant: Current.tenant) if user.accessible_to_tenant?(Current.tenant)
 
       scope.none
+    end
+
+    def portal_scope
+      return scope.none unless user && Current.tenant.present? && user.portal_access? && user.accessible_to_tenant?(Current.tenant)
+
+      scope.where(tenant: Current.tenant)
     end
   end
 end

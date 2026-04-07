@@ -1,10 +1,12 @@
 class BookingPolicy < ApplicationPolicy
   def index?
-    tenant_operator?
+    tenant_operator? || portal_user?
   end
 
   def show?
-    tenant_operator? && within_current_tenant?
+    return tenant_operator? && within_current_tenant? if tenant_operator?
+
+    portal_user? && within_current_tenant? && record.visible_to_portal_user?(user)
   end
 
   def new?
@@ -21,7 +23,10 @@ class BookingPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      tenant_scope
+      return tenant_scope if user&.workspace_access?
+      return portal_scope.for_portal_user(user) if user&.portal_access?
+
+      scope.none
     end
   end
 end

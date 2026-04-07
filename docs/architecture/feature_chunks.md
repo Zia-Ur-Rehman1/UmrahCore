@@ -55,16 +55,16 @@ Status: complete
 
 ## Chunk 007: Storefront and client portal
 
-Status: in progress
+Status: complete
 
 - Public tenant storefront pages
-- Self-service booking and payment status pages
+- Self-service booking visibility and payment status pages
 - Group leader and customer portal surfaces
 
 ## Chunk 008: Reporting and live operations
 
 Status: in progress
 
-- KPI cards, metric snapshots, exports, and dashboards
+- KPI cards, exports, and dashboards
 - Turbo Streams / AnyCable live refresh patterns
-- Read-optimized reporting queries
+- Read-optimized reporting queries and scheduled metric snapshots

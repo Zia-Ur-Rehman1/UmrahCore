@@ -17,6 +17,7 @@ module Bookings
 
     def call
       booking = tenant.bookings.new(attributes.except(:create_lead_traveler))
+      assign_portal_contact!(booking)
       booking.total_price_cents = booking.product&.base_price_cents.to_i * booking.travelers_count.to_i
       booking.outstanding_cents = booking.total_price_cents
       booking.status = :pending_payment
@@ -40,5 +41,13 @@ module Bookings
     private
 
     attr_reader :tenant, :attributes
+
+    def assign_portal_contact!(booking)
+      portal_user = tenant.users.find_by(email: booking.lead_traveler_email)
+      return if portal_user.blank?
+
+      booking.customer_user ||= portal_user if portal_user.role_customer?
+      booking.group_leader_user ||= portal_user if portal_user.role_group_leader?
+    end
   end
 end

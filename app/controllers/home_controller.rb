@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def show
-    redirect_to dashboard_path if user_signed_in? && (current_user.platform_admin? || current_tenant.present?)
+    return redirect_to workspace_home_path_for(current_user) if user_signed_in? && (current_user.platform_admin? || current_tenant.present?)
 
     return unless current_tenant.present?
 

@@ -1,0 +1,97 @@
+<section class="space-y-8">
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+    <div>
+      <p class="text-sm uppercase tracking-[0.2em] text-sky-300">Client Portal</p>
+      <h1 class="mt-3 text-4xl font-semibold text-stone-50">Welcome back, <%= current_user.full_name %></h1>
+      <p class="mt-2 max-w-2xl text-stone-300">
+        Review your booking status, payment progress, departure timing, and any open support cases from one tenant-specific workspace.
+      </p>
+    </div>
+    <div class="rounded-3xl border border-white/10 bg-white/5 px-5 py-4 text-sm text-stone-300">
+      Signed in to <span class="font-semibold text-stone-50"><%= current_tenant.name %></span>
+      as <span class="font-semibold text-stone-50"><%= current_user.role.humanize %></span>
+    </div>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-4">
+    <div class="panel">
+      <p class="text-sm text-stone-400">My bookings</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= @bookings_count %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Paid</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= currency_amount(@amount_paid_cents, "USD") %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Outstanding</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= currency_amount(@outstanding_cents, "USD") %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Open cases</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= @open_cases_count %></p>
+    </div>
+  </div>
+
+  <div class="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+    <div class="panel">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <p class="text-sm uppercase tracking-[0.2em] text-stone-400">My bookings</p>
+          <h2 class="mt-2 text-2xl font-semibold text-stone-50">Current trips and balances</h2>
+        </div>
+        <%= link_to "View all", portal_bookings_path, class: "btn-secondary" %>
+      </div>
+
+      <div class="mt-5 space-y-4">
+        <% @bookings.each do |booking| %>
+          <article class="rounded-3xl border border-white/10 bg-black/15 p-5">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p class="font-medium text-stone-100"><%= link_to booking.booking_ref, portal_booking_path(booking), class: "hover:text-amber-100" %></p>
+                <p class="text-sm text-stone-500"><%= booking.product.name %> • <%= booking.departure.departure_date %></p>
+              </div>
+              <span class="rounded-full border border-white/10 px-3 py-1 text-xs font-medium text-stone-300"><%= booking.status.humanize %></span>
+            </div>
+            <div class="mt-4 grid gap-3 sm:grid-cols-3">
+              <div class="rounded-2xl border border-white/10 bg-stone-950/60 p-4">
+                <p class="text-sm text-stone-500">Lead traveler</p>
+                <p class="mt-2 text-stone-100"><%= booking.lead_traveler_name %></p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-stone-950/60 p-4">
+                <p class="text-sm text-stone-500">Paid</p>
+                <p class="mt-2 text-stone-100"><%= currency_amount(booking.amount_paid_cents, booking.currency) %></p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-stone-950/60 p-4">
+                <p class="text-sm text-stone-500">Outstanding</p>
+                <p class="mt-2 text-stone-100"><%= currency_amount(booking.outstanding_cents, booking.currency) %></p>
+              </div>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    </div>
+
+    <aside class="space-y-6">
+      <div class="panel">
+        <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Next departure</p>
+        <% if @next_departure.present? %>
+          <div class="mt-5 rounded-3xl border border-white/10 bg-black/15 p-5">
+            <p class="text-xl font-semibold text-stone-50"><%= @next_departure.product.name %></p>
+            <p class="mt-2 text-stone-300"><%= @next_departure.departure.departure_date %> to <%= @next_departure.departure.return_date %></p>
+            <p class="mt-2 text-sm text-stone-500"><%= @next_departure.booking_ref %> • <%= @next_departure.travelers_count %> travelers</p>
+          </div>
+        <% else %>
+          <p class="mt-5 text-stone-400">No upcoming departures are linked to your current bookings.</p>
+        <% end %>
+      </div>
+
+      <div class="panel">
+        <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Support</p>
+        <p class="mt-4 text-stone-300">
+          Need changes or documents confirmed? Contact
+          <%= mail_to current_tenant.support_email.presence || "support@example.test", current_tenant.support_email.presence || "support@example.test", class: "text-amber-100" %>.
+        </p>
+      </div>
+    </aside>
+  </div>
+</section>

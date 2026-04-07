@@ -16,6 +16,7 @@
 
         <div class="flex flex-wrap gap-3">
           <%= link_to "Agency sign in", new_user_session_path, class: "btn-primary" %>
+          <%= link_to "Client portal sign in", new_user_session_path, class: "btn-secondary" %>
           <%= mail_to current_tenant.support_email.presence || "support@example.test", "Contact support", class: "btn-secondary" %>
         </div>
       </div>
@@ -116,6 +117,14 @@
           Support:
           <span class="font-semibold text-stone-50">support@demotravels.test</span>
         </p>
+        <p class="mt-4 text-stone-200">
+          Client portal:
+          <span class="font-semibold text-stone-50">customer@demotravels.test</span>
+        </p>
+        <p class="text-stone-200">
+          Group leader:
+          <span class="font-semibold text-stone-50">leader@demotravels.test</span>
+        </p>
         <p class="mt-2 text-stone-400">Password: <span class="text-stone-100">Password123!</span></p>
       </div>
 
@@ -127,6 +136,7 @@
       <div class="flex flex-wrap gap-3">
         <%= link_to "Platform Sign In", new_user_session_path, class: "btn-primary" %>
         <%= link_to "Provisioning Console", platform_tenants_path, class: "btn-secondary" %>
+        <%= link_to "Demo Storefront", "http://demo.lvh.me:3000/", class: "btn-secondary" %>
       </div>
     </aside>
   </section>

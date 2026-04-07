@@ -5,6 +5,8 @@ class User < ApplicationRecord
 
   has_many :assigned_support_cases, class_name: "SupportCase", foreign_key: :assigned_user_id, dependent: :nullify, inverse_of: :assigned_user
   has_many :case_messages, dependent: :restrict_with_error
+  has_many :customer_bookings, class_name: "Booking", foreign_key: :customer_user_id, dependent: :nullify, inverse_of: :customer_user
+  has_many :group_leader_bookings, class_name: "Booking", foreign_key: :group_leader_user_id, dependent: :nullify, inverse_of: :group_leader_user
 
   belongs_to :tenant, optional: true
 
@@ -36,12 +38,24 @@ class User < ApplicationRecord
     platform_admin? || tenant == candidate_tenant
   end
 
+  def workspace_access?
+    platform_admin? || role_owner? || role_operations_manager? || role_sales_agent? || role_finance_officer? || role_support_agent?
+  end
+
+  def portal_access?
+    role_group_leader? || role_customer?
+  end
+
   def tenant_admin?
     platform_admin? || role_owner?
   end
 
   def finance_access?
     tenant_admin? || role_finance_officer?
+  end
+
+  def reporting_access?
+    tenant_admin? || role_operations_manager? || role_finance_officer? || role_support_agent?
   end
 
   def support_access?

@@ -17,6 +17,8 @@ The repository started at the specification stage with no executable application
 - Manual payment capture with booking balance updates and ledger entries.
 - Support case creation and threaded replies.
 - Public storefront rendering for tenant hosts.
+- Client portal booking visibility for customer and group leader users.
+- Reporting dashboards with CSV exports for bookings, payments, and support cases.
 - Seeded demo users and data for a complete walkthrough.
 - Chunk-level audit notes under `docs/pr/001` through `docs/pr/006`.
 
@@ -50,4 +52,5 @@ Live walkthrough on `http://demo.lvh.me:3000/`:
 - Traveler document uploads and Active Storage workflows.
 - Client portal authentication and self-service booking visibility.
 - Real-time AnyCable or Turbo broadcast updates.
-- Reporting exports and scheduled metric snapshots.
+- Portal self-service payment and document actions.
+- Scheduled metric snapshots and async export delivery.

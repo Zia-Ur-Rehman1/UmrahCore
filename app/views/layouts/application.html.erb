@@ -28,7 +28,7 @@
 
             <% if user_signed_in? %>
               <span class="hidden text-stone-300 sm:inline"><%= current_user.full_name %></span>
-              <%= link_to "Dashboard", dashboard_path, class: "btn-secondary" %>
+              <%= link_to "Dashboard", workspace_home_path_for(current_user), class: "btn-secondary" %>
               <% if current_user.platform_admin? %>
                 <%= link_to "Provision Tenant", new_platform_tenant_path, class: "btn-primary" %>
               <% end %>
@@ -39,12 +39,18 @@
           </div>
         </div>
 
-        <% if user_signed_in? && current_tenant.present? %>
+        <% if user_signed_in? && current_tenant.present? && current_user.workspace_access? %>
           <nav class="mx-auto flex max-w-7xl flex-wrap gap-3 px-6 pb-5 text-sm">
             <%= link_to "Overview", dashboard_path, class: "btn-secondary" %>
             <%= link_to "Catalog", products_path, class: "btn-secondary" %>
             <%= link_to "Bookings", bookings_path, class: "btn-secondary" %>
+            <%= link_to "Reports", reports_path, class: "btn-secondary" if current_user.reporting_access? %>
             <%= link_to "Support Inbox", support_cases_path, class: "btn-secondary" %>
+          </nav>
+        <% elsif user_signed_in? && current_tenant.present? && current_user.portal_access? %>
+          <nav class="mx-auto flex max-w-7xl flex-wrap gap-3 px-6 pb-5 text-sm">
+            <%= link_to "Portal Home", portal_dashboard_path, class: "btn-secondary" %>
+            <%= link_to "My Bookings", portal_bookings_path, class: "btn-secondary" %>
           </nav>
         <% end %>
       </header>
