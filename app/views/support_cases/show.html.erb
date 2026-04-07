@@ -1,0 +1,75 @@
+<section class="space-y-8">
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+    <div>
+      <p class="text-sm uppercase tracking-[0.2em] text-stone-400"><%= @support_case.priority.humanize %> priority</p>
+      <h1 class="mt-3 text-4xl font-semibold text-stone-50"><%= @support_case.case_ref %></h1>
+      <p class="mt-2 text-stone-300"><%= @support_case.subject %> • <%= @support_case.contact_name %></p>
+    </div>
+    <div class="rounded-3xl border border-white/10 bg-white/5 px-5 py-4 text-sm text-stone-300">
+      Assigned to <span class="font-semibold text-stone-50"><%= @support_case.assigned_user&.full_name || "Unassigned" %></span>
+    </div>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-4">
+    <div class="panel">
+      <p class="text-sm text-stone-400">Status</p>
+      <p class="mt-3 text-2xl font-semibold text-stone-50"><%= @support_case.status.humanize %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Source</p>
+      <p class="mt-3 text-2xl font-semibold text-stone-50"><%= @support_case.source.humanize %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Linked booking</p>
+      <p class="mt-3 text-2xl font-semibold text-stone-50"><%= @support_case.booking&.booking_ref || "None" %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">SLA due</p>
+      <p class="mt-3 text-2xl font-semibold text-stone-50"><%= @support_case.sla_due_at&.strftime("%Y-%m-%d") %></p>
+    </div>
+  </div>
+
+  <div class="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+    <div class="panel">
+      <div class="mb-5 flex items-center justify-between">
+        <div>
+          <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Conversation</p>
+          <h2 class="mt-2 text-2xl font-semibold text-stone-50">Case messages</h2>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <% @case_messages.each do |case_message| %>
+          <div class="rounded-3xl border border-white/10 bg-black/15 p-4">
+            <div class="flex items-center justify-between gap-4">
+              <p class="font-medium text-stone-100"><%= case_message.user.full_name %></p>
+              <span class="text-xs uppercase tracking-[0.2em] text-stone-500"><%= case_message.direction.humanize %></span>
+            </div>
+            <p class="mt-3 text-stone-300"><%= case_message.body %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Reply</p>
+      <%= form_with model: [@support_case, @case_message], class: "mt-6 space-y-6" do |form| %>
+        <% if @case_message.errors.any? %>
+          <div class="rounded-2xl border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
+            <%= @case_message.errors.full_messages.to_sentence %>
+          </div>
+        <% end %>
+
+        <div>
+          <%= form.label :direction, class: "field-label" %>
+          <%= form.select :direction, CaseMessage.directions.keys.map { |value| [value.humanize, value] }, {}, class: "field-input" %>
+        </div>
+        <div>
+          <%= form.label :body, class: "field-label" %>
+          <%= form.text_area :body, rows: 8, class: "field-input" %>
+        </div>
+        <%= form.submit "Send message", class: "btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+</section>

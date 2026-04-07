@@ -1,0 +1,16 @@
+demo_booking:
+  tenant: demo
+  product: demo_package
+  departure: demo_november
+  booking_ref: DEM-260407-A1
+  lead_traveler_name: Amina Rahman
+  lead_traveler_email: amina@example.test
+  status: 1
+  travelers_count: 2
+  total_price_cents: 490000
+  amount_paid_cents: 150000
+  outstanding_cents: 340000
+  currency: USD
+  payment_plan: Installment
+  idempotency_key: fixture-booking-demo
+  notes: Requires quad rooming

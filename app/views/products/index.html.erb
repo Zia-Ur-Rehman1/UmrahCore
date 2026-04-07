@@ -1,0 +1,47 @@
+<section class="space-y-8">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Catalog</p>
+      <h1 class="mt-3 text-4xl font-semibold text-stone-50"><%= current_tenant.name %> products</h1>
+      <p class="mt-2 max-w-2xl text-stone-300">
+        Tenant admins can now define products and attach departures as the next operational slice after provisioning.
+      </p>
+    </div>
+    <%= link_to "New product", new_product_path, class: "btn-primary" %>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-2">
+    <% @products.each do |product| %>
+      <article class="panel">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-sm uppercase tracking-[0.2em] text-stone-400"><%= product.product_type.humanize %></p>
+            <h2 class="mt-2 text-2xl font-semibold text-stone-50"><%= product.name %></h2>
+          </div>
+          <span class="rounded-full border border-white/10 px-3 py-1 text-sm text-stone-300"><%= product.status.humanize %></span>
+        </div>
+        <p class="mt-4 text-stone-300"><%= product.description.presence || "No description yet." %></p>
+
+        <div class="mt-6 grid grid-cols-3 gap-3 text-sm">
+          <div class="rounded-2xl border border-white/10 bg-black/15 p-4">
+            <p class="text-stone-500">Base price</p>
+            <p class="mt-2 font-semibold text-stone-100"><%= product.currency %> <%= product.base_price_cents %></p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-black/15 p-4">
+            <p class="text-stone-500">Nights</p>
+            <p class="mt-2 font-semibold text-stone-100"><%= product.duration_nights %></p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-black/15 p-4">
+            <p class="text-stone-500">Departures</p>
+            <p class="mt-2 font-semibold text-stone-100"><%= product.departures.size %></p>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <%= link_to "Open", product_path(product), class: "btn-secondary" %>
+          <%= link_to "Add departure", new_product_departure_path(product), class: "btn-primary" %>
+        </div>
+      </article>
+    <% end %>
+  </div>
+</section>

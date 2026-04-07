@@ -1,0 +1,54 @@
+<section class="mx-auto max-w-4xl space-y-8">
+  <div>
+    <p class="text-sm uppercase tracking-[0.2em] text-stone-400">New Departure</p>
+    <h1 class="mt-3 text-4xl font-semibold text-stone-50">Schedule a departure for <%= @product.name %></h1>
+  </div>
+
+  <%= form_with model: [@product, @departure], class: "panel space-y-8" do |form| %>
+    <% if @departure.errors.any? %>
+      <div class="rounded-2xl border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
+        <%= @departure.errors.full_messages.to_sentence %>
+      </div>
+    <% end %>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      <div>
+        <%= form.label :departure_date, class: "field-label" %>
+        <%= form.date_field :departure_date, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :return_date, class: "field-label" %>
+        <%= form.date_field :return_date, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :capacity, class: "field-label" %>
+        <%= form.number_field :capacity, class: "field-input", min: 0 %>
+      </div>
+      <div>
+        <%= form.label :status, class: "field-label" %>
+        <%= form.select :status, Departure.statuses.keys.map { |value| [value.humanize, value] }, {}, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :reserved_count, class: "field-label" %>
+        <%= form.number_field :reserved_count, class: "field-input", min: 0 %>
+      </div>
+      <div>
+        <%= form.label :confirmed_count, class: "field-label" %>
+        <%= form.number_field :confirmed_count, class: "field-input", min: 0 %>
+      </div>
+      <div class="md:col-span-2">
+        <%= form.label :fare_lock_deadline, class: "field-label" %>
+        <%= form.datetime_local_field :fare_lock_deadline, class: "field-input" %>
+      </div>
+      <div class="md:col-span-2">
+        <%= form.label :notes, class: "field-label" %>
+        <%= form.text_area :notes, rows: 4, class: "field-input", placeholder: "Pricing notes, rooming assumptions, supplier deadlines" %>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <%= form.submit "Create departure", class: "btn-primary" %>
+      <%= link_to "Back to product", product_path(@product), class: "btn-secondary" %>
+    </div>
+  <% end %>
+</section>

@@ -1,0 +1,7 @@
+rooming_initial:
+  tenant: demo
+  support_case: rooming_case
+  user: demo_support
+  body: Customer asked whether quad rooming is confirmed.
+  direction: 0
+  sent_at: 2026-04-07 09:00:00

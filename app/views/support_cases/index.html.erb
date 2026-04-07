@@ -1,0 +1,63 @@
+<section class="space-y-8">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Support Inbox</p>
+      <h1 class="mt-3 text-4xl font-semibold text-stone-50">Cases and customer threads</h1>
+      <p class="mt-2 max-w-2xl text-stone-300">
+        Track service issues, payment questions, and booking-linked escalations inside the tenant workspace.
+      </p>
+    </div>
+    <%= link_to "Open case", new_support_case_path, class: "btn-primary" %>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-4">
+    <div class="panel">
+      <p class="text-sm text-stone-400">Open cases</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= @support_cases.count { |support_case| !support_case.status_resolved? } %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Urgent</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= @support_cases.count(&:priority_urgent?) %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Linked bookings</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= @support_cases.count { |support_case| support_case.booking.present? } %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Resolved</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= @support_cases.count(&:status_resolved?) %></p>
+    </div>
+  </div>
+
+  <div class="panel overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-left text-sm">
+        <thead class="text-stone-400">
+          <tr>
+            <th class="pb-3 pr-4 font-medium">Case</th>
+            <th class="pb-3 pr-4 font-medium">Contact</th>
+            <th class="pb-3 pr-4 font-medium">Booking</th>
+            <th class="pb-3 pr-4 font-medium">Assigned</th>
+            <th class="pb-3 pr-4 font-medium">Priority</th>
+            <th class="pb-3 font-medium"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <% @support_cases.each do |support_case| %>
+            <tr>
+              <td class="py-4 pr-4">
+                <p class="font-medium text-stone-100"><%= support_case.case_ref %></p>
+                <p class="text-stone-500"><%= support_case.subject %></p>
+              </td>
+              <td class="py-4 pr-4 text-stone-300"><%= support_case.contact_name %></td>
+              <td class="py-4 pr-4 text-stone-300"><%= support_case.booking&.booking_ref || "None" %></td>
+              <td class="py-4 pr-4 text-stone-300"><%= support_case.assigned_user&.full_name || "Unassigned" %></td>
+              <td class="py-4 pr-4 text-stone-300"><%= support_case.priority.humanize %></td>
+              <td class="py-4"><%= link_to "Open", support_case_path(support_case), class: "btn-secondary" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

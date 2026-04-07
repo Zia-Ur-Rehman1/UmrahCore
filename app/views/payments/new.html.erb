@@ -1,0 +1,50 @@
+<section class="mx-auto max-w-4xl space-y-8">
+  <div>
+    <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Record Payment</p>
+    <h1 class="mt-3 text-4xl font-semibold text-stone-50">Capture payment for <%= @booking.booking_ref %></h1>
+  </div>
+
+  <%= form_with model: [@booking, @payment], class: "panel space-y-8" do |form| %>
+    <% if @payment.errors.any? %>
+      <div class="rounded-2xl border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
+        <%= @payment.errors.full_messages.to_sentence %>
+      </div>
+    <% end %>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      <div>
+        <%= form.label :amount_cents, "Amount (cents)", class: "field-label" %>
+        <%= form.number_field :amount_cents, class: "field-input", min: 1, step: 1 %>
+      </div>
+      <div>
+        <%= form.label :currency, class: "field-label" %>
+        <%= form.text_field :currency, class: "field-input", maxlength: 3 %>
+      </div>
+      <div>
+        <%= form.label :payment_method, class: "field-label" %>
+        <%= form.select :payment_method, [["Manual transfer", "manual_transfer"], ["Stripe", "stripe"], ["Cash", "cash"]], {}, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :status, class: "field-label" %>
+        <%= form.select :status, Payment.statuses.keys.map { |value| [value.humanize, value] }, {}, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :external_reference, class: "field-label" %>
+        <%= form.text_field :external_reference, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :paid_at, class: "field-label" %>
+        <%= form.datetime_local_field :paid_at, class: "field-input" %>
+      </div>
+      <div class="md:col-span-2">
+        <%= form.label :notes, class: "field-label" %>
+        <%= form.text_area :notes, rows: 4, class: "field-input" %>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <%= form.submit "Record payment", class: "btn-primary" %>
+      <%= link_to "Back to booking", booking_path(@booking), class: "btn-secondary" %>
+    </div>
+  <% end %>
+</section>

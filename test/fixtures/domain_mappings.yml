@@ -1,0 +1,13 @@
+demo_subdomain:
+  tenant: demo
+  host: demo.lvh.me
+  kind: 0
+  primary: true
+  verified_at: <%= Time.current %>
+
+second_custom:
+  tenant: second
+  host: second.test
+  kind: 1
+  primary: true
+  verified_at: <%= Time.current %>

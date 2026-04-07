@@ -1,0 +1,10 @@
+deposit_payment:
+  tenant: demo
+  booking: demo_booking
+  amount_cents: 150000
+  currency: USD
+  status: 1
+  payment_method: manual_transfer
+  external_reference: FIXTURE-PAY-001
+  paid_at: 2026-04-06 10:00:00
+  notes: Deposit payment

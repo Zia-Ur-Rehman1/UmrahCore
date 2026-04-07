@@ -1,0 +1,133 @@
+<% if current_tenant.present? %>
+  <section class="space-y-8">
+    <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+      <div class="space-y-6">
+        <span class="inline-flex rounded-full border border-emerald-300/30 bg-emerald-300/10 px-4 py-2 text-sm text-emerald-100">
+          <%= current_tenant.name %> storefront
+        </span>
+        <div class="space-y-4">
+          <h1 class="max-w-3xl text-5xl font-semibold tracking-tight text-stone-50">
+            Guided Umrah journeys with tenant-branded availability and operations behind the scenes.
+          </h1>
+          <p class="max-w-2xl text-lg leading-8 text-stone-300">
+            Browse published products and upcoming departures for <%= current_tenant.name %>. Internal teams can sign in to manage bookings, payments, and support from the same Rails app.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <%= link_to "Agency sign in", new_user_session_path, class: "btn-primary" %>
+          <%= mail_to current_tenant.support_email.presence || "support@example.test", "Contact support", class: "btn-secondary" %>
+        </div>
+      </div>
+
+      <aside class="panel space-y-6">
+        <div>
+          <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Upcoming departures</p>
+          <div class="mt-5 space-y-4">
+            <% @upcoming_departures.each do |departure| %>
+              <div class="rounded-3xl border border-white/10 bg-black/15 p-4">
+                <p class="font-medium text-stone-100"><%= departure.product.name %></p>
+                <p class="text-sm text-stone-500"><%= departure.departure_date %> to <%= departure.return_date %></p>
+                <p class="mt-2 text-sm text-stone-300">Capacity <%= departure.capacity %> • Confirmed <%= departure.confirmed_count %></p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      <% @storefront_products.each do |product| %>
+        <article class="panel">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-sm uppercase tracking-[0.2em] text-stone-400"><%= product.product_type.humanize %></p>
+              <h2 class="mt-2 text-3xl font-semibold text-stone-50"><%= product.name %></h2>
+            </div>
+            <span class="rounded-full border border-white/10 px-3 py-1 text-sm text-stone-300"><%= product.duration_nights %> nights</span>
+          </div>
+          <p class="mt-4 text-stone-300"><%= product.description %></p>
+
+          <div class="mt-6 grid grid-cols-3 gap-3 text-sm">
+            <div class="rounded-2xl border border-white/10 bg-black/15 p-4">
+              <p class="text-stone-500">From</p>
+              <p class="mt-2 font-semibold text-stone-100"><%= currency_amount(product.base_price_cents, product.currency) %></p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-black/15 p-4">
+              <p class="text-stone-500">Departures</p>
+              <p class="mt-2 font-semibold text-stone-100"><%= product.departures.status_published.count %></p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-black/15 p-4">
+              <p class="text-stone-500">B2C</p>
+              <p class="mt-2 font-semibold text-stone-100"><%= product.b2c_enabled? ? "Open" : "Private" %></p>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  </section>
+<% else %>
+  <section class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+    <div class="space-y-6">
+      <span class="inline-flex rounded-full border border-amber-300/30 bg-amber-300/10 px-4 py-2 text-sm text-amber-100">
+        Multi-tenant operations platform live
+      </span>
+      <div class="space-y-4">
+        <h1 class="max-w-3xl text-5xl font-semibold tracking-tight text-stone-50">
+          Multi-tenant Umrah operations without a frontend split-brain.
+        </h1>
+        <p class="max-w-2xl text-lg leading-8 text-stone-300">
+          This Rails-first workspace now includes tenant provisioning, catalog, bookings, finance posting, support inboxes, and a public tenant storefront.
+        </p>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div class="panel">
+          <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Isolation</p>
+          <p class="mt-3 text-2xl font-semibold text-stone-50">Row / Schema / DB</p>
+        </div>
+        <div class="panel">
+          <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Portal Pattern</p>
+          <p class="mt-3 text-2xl font-semibold text-stone-50">Hotwire + ERB</p>
+        </div>
+        <div class="panel">
+          <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Modules</p>
+          <p class="mt-3 text-2xl font-semibold text-stone-50">Catalog + Ops + Support</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="panel space-y-6">
+      <div>
+        <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Demo Access</p>
+        <p class="mt-4 text-stone-200">
+          Platform admin:
+          <span class="font-semibold text-stone-50">platform.admin@umrahopspro.test</span>
+        </p>
+        <p class="text-stone-200">
+          Demo owner:
+          <span class="font-semibold text-stone-50">owner@demotravels.test</span>
+        </p>
+        <p class="text-stone-200">
+          Finance:
+          <span class="font-semibold text-stone-50">finance@demotravels.test</span>
+        </p>
+        <p class="text-stone-200">
+          Support:
+          <span class="font-semibold text-stone-50">support@demotravels.test</span>
+        </p>
+        <p class="mt-2 text-stone-400">Password: <span class="text-stone-100">Password123!</span></p>
+      </div>
+
+      <div class="rounded-3xl border border-white/10 bg-black/20 p-5">
+        <p class="text-sm text-stone-400">Tenant storefront</p>
+        <code class="mt-3 block text-sm text-amber-100">http://demo.lvh.me:3000/</code>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <%= link_to "Platform Sign In", new_user_session_path, class: "btn-primary" %>
+        <%= link_to "Provisioning Console", platform_tenants_path, class: "btn-secondary" %>
+      </div>
+    </aside>
+  </section>
+<% end %>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>UmrahOps Pro</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="min-h-screen bg-stone-950 text-stone-100">
+    <div class="min-h-screen bg-[radial-gradient(circle_at_top,rgba(251,191,36,0.18),transparent_32%),linear-gradient(180deg,#1c1917_0%,#0c0a09_100%)]">
+      <header class="border-b border-white/10">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+          <div>
+            <%= link_to "UmrahOps Pro", root_path, class: "text-lg font-semibold tracking-[0.18em] text-amber-200 uppercase" %>
+            <p class="text-sm text-stone-400">Rails-first multi-tenant travel operations core</p>
+          </div>
+
+          <div class="flex items-center gap-3 text-sm">
+            <% if current_tenant.present? %>
+              <span class="rounded-full border border-emerald-400/40 bg-emerald-400/10 px-3 py-1 text-emerald-200">
+                <%= current_tenant.name %> workspace
+              </span>
+            <% end %>
+
+            <% if user_signed_in? %>
+              <span class="hidden text-stone-300 sm:inline"><%= current_user.full_name %></span>
+              <%= link_to "Dashboard", dashboard_path, class: "btn-secondary" %>
+              <% if current_user.platform_admin? %>
+                <%= link_to "Provision Tenant", new_platform_tenant_path, class: "btn-primary" %>
+              <% end %>
+              <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn-secondary" %>
+            <% else %>
+              <%= link_to "Sign in", new_user_session_path, class: "btn-primary" %>
+            <% end %>
+          </div>
+        </div>
+
+        <% if user_signed_in? && current_tenant.present? %>
+          <nav class="mx-auto flex max-w-7xl flex-wrap gap-3 px-6 pb-5 text-sm">
+            <%= link_to "Overview", dashboard_path, class: "btn-secondary" %>
+            <%= link_to "Catalog", products_path, class: "btn-secondary" %>
+            <%= link_to "Bookings", bookings_path, class: "btn-secondary" %>
+            <%= link_to "Support Inbox", support_cases_path, class: "btn-secondary" %>
+          </nav>
+        <% end %>
+      </header>
+
+      <main class="mx-auto max-w-7xl px-6 py-10">
+        <% flash.each do |kind, message| %>
+          <% tone = kind.to_s == "alert" ? "border-rose-400/40 bg-rose-500/10 text-rose-100" : "border-emerald-400/40 bg-emerald-500/10 text-emerald-100" %>
+          <div class="mb-6 rounded-2xl border px-4 py-3 text-sm <%= tone %>">
+            <%= message %>
+          </div>
+        <% end %>
+
+        <%= yield %>
+      </main>
+    </div>
+  </body>
+</html>

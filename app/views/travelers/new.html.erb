@@ -1,0 +1,42 @@
+<section class="mx-auto max-w-4xl space-y-8">
+  <div>
+    <p class="text-sm uppercase tracking-[0.2em] text-stone-400">New Traveler</p>
+    <h1 class="mt-3 text-4xl font-semibold text-stone-50">Add traveler to <%= @booking.booking_ref %></h1>
+  </div>
+
+  <%= form_with model: [@booking, @traveler], class: "panel space-y-8" do |form| %>
+    <% if @traveler.errors.any? %>
+      <div class="rounded-2xl border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
+        <%= @traveler.errors.full_messages.to_sentence %>
+      </div>
+    <% end %>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      <div>
+        <%= form.label :full_name, class: "field-label" %>
+        <%= form.text_field :full_name, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :passport_number, class: "field-label" %>
+        <%= form.text_field :passport_number, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :date_of_birth, class: "field-label" %>
+        <%= form.date_field :date_of_birth, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :status, class: "field-label" %>
+        <%= form.select :status, Traveler.statuses.keys.map { |value| [value.humanize, value] }, {}, class: "field-input" %>
+      </div>
+      <div class="md:col-span-2">
+        <%= form.label :notes, class: "field-label" %>
+        <%= form.text_area :notes, rows: 4, class: "field-input" %>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <%= form.submit "Add traveler", class: "btn-primary" %>
+      <%= link_to "Back to booking", booking_path(@booking), class: "btn-secondary" %>
+    </div>
+  <% end %>
+</section>

@@ -1,0 +1,42 @@
+<section class="space-y-8">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Provisioning Queue</p>
+      <h1 class="mt-3 text-4xl font-semibold text-stone-50">Tenant lifecycle intake</h1>
+      <p class="mt-2 max-w-2xl text-stone-300">
+        Current implementation covers tenant record creation, primary host assignment, and owner bootstrap.
+      </p>
+    </div>
+    <%= link_to "New tenant", new_platform_tenant_path, class: "btn-primary" %>
+  </div>
+
+  <div class="panel overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-left text-sm">
+        <thead class="text-stone-400">
+          <tr>
+            <th class="pb-3 pr-4 font-medium">Tenant</th>
+            <th class="pb-3 pr-4 font-medium">Owner count</th>
+            <th class="pb-3 pr-4 font-medium">Host</th>
+            <th class="pb-3 pr-4 font-medium">Tier</th>
+            <th class="pb-3 font-medium">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <% @tenants.each do |tenant| %>
+            <tr>
+              <td class="py-4 pr-4">
+                <p class="font-medium text-stone-100"><%= tenant.name %></p>
+                <p class="text-stone-500"><%= tenant.slug %></p>
+              </td>
+              <td class="py-4 pr-4 text-stone-300"><%= tenant.users.count %></td>
+              <td class="py-4 pr-4 text-amber-100"><%= tenant.primary_host %></td>
+              <td class="py-4 pr-4 text-stone-300"><%= tenant.tier.humanize %></td>
+              <td class="py-4 text-stone-300"><%= tenant.status.humanize %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
