@@ -1,0 +1,63 @@
+<section class="space-y-8">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Bookings</p>
+      <h1 class="mt-3 text-4xl font-semibold text-stone-50">Operational bookings board</h1>
+      <p class="mt-2 max-w-2xl text-stone-300">
+        Track lead travelers, payment status, linked departures, and support escalation from one workspace.
+      </p>
+    </div>
+    <%= link_to "New booking", new_booking_path, class: "btn-primary" %>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-4">
+    <div class="panel">
+      <p class="text-sm text-stone-400">Total bookings</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= @bookings.size %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Confirmed</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= @bookings.count(&:status_confirmed?) %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Pending payment</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= @bookings.count(&:status_pending_payment?) %></p>
+    </div>
+    <div class="panel">
+      <p class="text-sm text-stone-400">Outstanding</p>
+      <p class="mt-3 text-3xl font-semibold text-stone-50"><%= currency_amount(@bookings.sum(&:outstanding_cents), "USD") %></p>
+    </div>
+  </div>
+
+  <div class="panel overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-left text-sm">
+        <thead class="text-stone-400">
+          <tr>
+            <th class="pb-3 pr-4 font-medium">Booking</th>
+            <th class="pb-3 pr-4 font-medium">Product</th>
+            <th class="pb-3 pr-4 font-medium">Departure</th>
+            <th class="pb-3 pr-4 font-medium">Travelers</th>
+            <th class="pb-3 pr-4 font-medium">Outstanding</th>
+            <th class="pb-3 font-medium"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/5">
+          <% @bookings.each do |booking| %>
+            <tr>
+              <td class="py-4 pr-4">
+                <p class="font-medium text-stone-100"><%= booking.booking_ref %></p>
+                <p class="text-stone-500"><%= booking.lead_traveler_name %></p>
+              </td>
+              <td class="py-4 pr-4 text-stone-300"><%= booking.product.name %></td>
+              <td class="py-4 pr-4 text-stone-300"><%= booking.departure.departure_date %></td>
+              <td class="py-4 pr-4 text-stone-300"><%= booking.travelers_count %></td>
+              <td class="py-4 pr-4 text-stone-300"><%= currency_amount(booking.outstanding_cents, booking.currency) %></td>
+              <td class="py-4"><%= link_to "Open", booking_path(booking), class: "btn-secondary" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

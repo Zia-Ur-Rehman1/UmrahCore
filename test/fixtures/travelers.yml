@@ -1,0 +1,8 @@
+lead_traveler:
+  tenant: demo
+  booking: demo_booking
+  full_name: Amina Rahman
+  passport_number: PK1234567
+  date_of_birth: 1992-05-04
+  status: 1
+  notes: Lead traveler

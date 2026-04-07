@@ -1,0 +1,35 @@
+demo_booking:
+  tenant: demo
+  product: demo_package
+  departure: demo_november
+  booking_ref: DEM-260407-A1
+  lead_traveler_name: Amina Rahman
+  lead_traveler_email: amina@example.test
+  status: 1
+  travelers_count: 2
+  total_price_cents: 490000
+  amount_paid_cents: 150000
+  outstanding_cents: 340000
+  currency: USD
+  payment_plan: Installment
+  customer_user: demo_customer
+  group_leader_user: demo_group_leader
+  idempotency_key: fixture-booking-demo
+  notes: Requires quad rooming
+
+demo_internal_booking:
+  tenant: demo
+  product: demo_package
+  departure: demo_november
+  booking_ref: DEM-260407-I2
+  lead_traveler_name: Internal Only Traveler
+  lead_traveler_email: internal@example.test
+  status: 0
+  travelers_count: 1
+  total_price_cents: 245000
+  amount_paid_cents: 0
+  outstanding_cents: 245000
+  currency: USD
+  payment_plan: Full
+  idempotency_key: fixture-booking-internal
+  notes: Internal booking not exposed to the client portal

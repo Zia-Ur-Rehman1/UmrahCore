@@ -1,0 +1,61 @@
+<section class="mx-auto max-w-4xl space-y-8">
+  <div>
+    <p class="text-sm uppercase tracking-[0.2em] text-stone-400">New Tenant</p>
+    <h1 class="mt-3 text-4xl font-semibold text-stone-50">Provision a tenant workspace</h1>
+    <p class="mt-2 text-stone-300">
+      This flow creates the tenant, default subdomain mapping, and the initial owner account in a single transaction.
+    </p>
+  </div>
+
+  <%= form_with url: platform_tenants_path, scope: :tenant, class: "panel space-y-8" do |form| %>
+    <div class="grid gap-6 md:grid-cols-2">
+      <div>
+        <%= form.label :name, class: "field-label" %>
+        <%= form.text_field :name, class: "field-input", placeholder: "Makkah Horizon Travels" %>
+      </div>
+      <div>
+        <%= form.label :slug, class: "field-label" %>
+        <%= form.text_field :slug, class: "field-input", placeholder: "makkah-horizon" %>
+      </div>
+      <div>
+        <%= form.label :tier, class: "field-label" %>
+        <%= form.select :tier, Tenant.tiers.keys.map { |value| [value.humanize, value] }, {}, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :isolation_model, class: "field-label" %>
+        <%= form.select :isolation_model, Tenant.isolation_models.keys.map { |value| [value.humanize, value] }, {}, class: "field-input" %>
+      </div>
+      <div>
+        <%= form.label :support_email, class: "field-label" %>
+        <%= form.email_field :support_email, class: "field-input", placeholder: "support@agency.test" %>
+      </div>
+      <div>
+        <%= form.label :region, class: "field-label" %>
+        <%= form.text_field :region, class: "field-input", placeholder: "PK" %>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10 pt-8">
+      <p class="text-sm uppercase tracking-[0.2em] text-stone-400">Initial owner</p>
+      <div class="mt-6 grid gap-6 md:grid-cols-3">
+        <div>
+          <%= form.label :owner_full_name, "Full name", class: "field-label" %>
+          <%= form.text_field :owner_full_name, class: "field-input", placeholder: "Amina Siddiqui" %>
+        </div>
+        <div>
+          <%= form.label :owner_email, "Email", class: "field-label" %>
+          <%= form.email_field :owner_email, class: "field-input", placeholder: "owner@agency.test" %>
+        </div>
+        <div>
+          <%= form.label :owner_password, "Temporary password", class: "field-label" %>
+          <%= form.password_field :owner_password, class: "field-input", placeholder: "Password123!" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <%= form.submit "Provision tenant", class: "btn-primary" %>
+      <%= link_to "Back to queue", platform_tenants_path, class: "btn-secondary" %>
+    </div>
+  <% end %>
+</section>

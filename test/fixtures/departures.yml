@@ -1,0 +1,23 @@
+demo_november:
+  tenant: demo
+  product: demo_package
+  departure_date: 2026-11-15
+  return_date: 2026-11-25
+  capacity: 40
+  reserved_count: 8
+  confirmed_count: 6
+  fare_lock_deadline: 2026-10-15 00:00:00
+  status: 1
+  notes: Early allocation batch
+
+second_december:
+  tenant: second
+  product: second_package
+  departure_date: 2026-12-10
+  return_date: 2026-12-17
+  capacity: 24
+  reserved_count: 2
+  confirmed_count: 1
+  fare_lock_deadline: 2026-11-10 00:00:00
+  status: 0
+  notes: Alternate tenant departure

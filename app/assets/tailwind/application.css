@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-amber-300 px-4 py-2 font-medium text-stone-950 transition hover:bg-amber-200;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-4 py-2 font-medium text-stone-100 transition hover:border-white/25 hover:bg-white/10;
+  }
+
+  .panel {
+    @apply rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.25)] backdrop-blur;
+  }
+
+  .field-label {
+    @apply mb-2 block text-sm font-medium text-stone-200;
+  }
+
+  .field-input {
+    @apply w-full rounded-2xl border border-white/10 bg-stone-900/80 px-4 py-3 text-stone-100 placeholder:text-stone-500 focus:border-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-300/20;
+  }
+}

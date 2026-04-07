@@ -1,0 +1,23 @@
+demo_package:
+  tenant: demo
+  name: Premium Spring Umrah
+  description: Guided Umrah journey with hotels and transfers.
+  product_type: 0
+  base_price_cents: 245000
+  currency: USD
+  duration_nights: 10
+  inclusions: Hotels, transport, guided itinerary
+  status: 1
+  b2c_enabled: true
+
+second_package:
+  tenant: second
+  name: Second Horizon Escape
+  description: Alternate tenant product.
+  product_type: 1
+  base_price_cents: 199000
+  currency: GBP
+  duration_nights: 7
+  inclusions: Hotels and airport transfer
+  status: 0
+  b2c_enabled: false

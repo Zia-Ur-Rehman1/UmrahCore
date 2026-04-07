@@ -1,0 +1,12 @@
+deposit_entry:
+  tenant: demo
+  booking: demo_booking
+  payment: deposit_payment
+  entry_type: 0
+  debit_account: Cash
+  credit_account: Deferred Revenue
+  amount_cents: 150000
+  currency: USD
+  posted_at: 2026-04-06 10:00:00
+  description: Deposit entry
+  idempotency_key: fixture-ledger-demo

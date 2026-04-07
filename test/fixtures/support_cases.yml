@@ -1,0 +1,12 @@
+rooming_case:
+  tenant: demo
+  booking: demo_booking
+  case_ref: CASE-260407-D1
+  subject: Need rooming confirmation
+  contact_name: Amina Rahman
+  contact_email: amina@example.test
+  priority: 2
+  status: 0
+  source: whatsapp
+  assigned_user: demo_support
+  sla_due_at: 2026-04-08 12:00:00

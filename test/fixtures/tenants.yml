@@ -1,0 +1,19 @@
+demo:
+  slug: demo
+  name: Demo Travels
+  status: 2
+  tier: 0
+  isolation_model: 0
+  settings: {}
+  support_email: support@demotravels.test
+  region: PK
+
+second:
+  slug: second
+  name: Second Horizon
+  status: 2
+  tier: 1
+  isolation_model: 1
+  settings: {}
+  support_email: support@second.test
+  region: UK
